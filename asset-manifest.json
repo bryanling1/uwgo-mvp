@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/uwgo-mvp/static/js/main.98a8d27d.js",
-    "index.html": "/uwgo-mvp/index.html",
-    "main.98a8d27d.js.map": "/uwgo-mvp/static/js/main.98a8d27d.js.map"
+    "main.js": "/static/js/main.d29d4136.js",
+    "index.html": "/index.html",
+    "main.d29d4136.js.map": "/static/js/main.d29d4136.js.map"
   },
   "entrypoints": [
-    "static/js/main.98a8d27d.js"
+    "static/js/main.d29d4136.js"
   ]
 }
