@@ -1,0 +1,88 @@
+{
+  "locations": {"nodes":[
+    {
+      "id": "1",
+      "name": "E7 4043"
+    },
+    {
+      "id": "2",
+      "name": "STC 0060"
+    },
+    {
+      "id": "3",
+      "name": "MC 1085"
+    },
+    {
+      "id": "5",
+      "name": "E2 2035"
+    }
+  ]},
+  "route": [
+    {
+      "id": "1",
+      "nodes": [
+        {
+          "id": "1",
+          "name": "Name_1",
+          "instruction": {
+            "title": "Instruction Title",
+            "description": "This is a description",
+            "icon": 0
+          },
+          "imageURL": "https://i.ibb.co/vY3f0qT/E7-4th-Floor-Intersection.jpg",
+          "overlayItems": {
+              "x": 0,
+              "y": 50,
+              "type": 2
+          }
+        },
+        {
+          "id": "2",
+          "name": "Name_2",
+          "instruction": {
+            "title": "Instruction Title2",
+            "description": "This is a description2",
+            "icon": 1
+          },
+          "imageURL": "https://i.ibb.co/8gpbV4R/E7-4043.jpg",
+          "overlayItems": {
+              "x": 80,
+              "y": 300,
+              "type": 1
+          }
+        },
+        {
+          "id": "3",
+          "name": "Name_3",
+          "instruction": {
+            "title": "Instruction Title3",
+            "description": "This is a description3",
+            "icon": 2
+          },
+          "imageURL": "https://i.ibb.co/1KjqmXR/E7-4th-Floor-Elevator-Entrance.jpg",
+          "overlayItems": {
+              "x": 0,
+              "y": 350,
+              "type": 0
+          }
+        },
+        {
+          "id": "4",
+          "name": "Name_4",
+          "instruction": {
+            "title": "Instruction Title4",
+            "description": "This is a description4",
+            "icon": 2
+          },
+          "imageURL": "https://i.ibb.co/SNpBLTW/E7-3rd-Floor-Hallway.jpg",
+          "overlayItems": {
+              "x": 0,
+              "y": 350,
+              "type": 0
+          }
+        }
+      ],
+      "arrivalTime": "12:39"
+    }
+  ]
+}
