@@ -11,6 +11,7 @@ import Switch from "@material-ui/core/Switch";
 import { HomeViewstate, Avoidance } from "components/Forms/Home/HomeViewstate";
 import { observer } from "mobx-react-lite";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { Link } from "react-router-dom";
 
 export const Home = observer(() => {
   const [viewState] = useState(() => new HomeViewstate());
@@ -107,16 +108,18 @@ export const Home = observer(() => {
             })}
           </AvoidanceOptionsWrapper>
           <Spacer />
+          <LinkWrapper to="/route">
           <ButtonWrapper
             variant="contained"
             color="primary"
             endIcon={<ArrowRightAltIcon />}
             disabled={isLoading}
-            href={`/#/route?${queryParams}`}
+            // href={`/#/route?${queryParams}`}
             disableElevation
           >
             Let's Go!
           </ButtonWrapper>
+          </LinkWrapper>
         </FormOpacityWrapper>
       </FormWrapper>
     </PaperWrapper>
@@ -142,6 +145,10 @@ const ButtonWrapper = styled(Button)`
   height: 48px;
   font-weight: bold !important;
 `;
+
+const LinkWrapper = styled(Link)`
+  text-decoration: none;
+`
 
 const Img = styled.img`
   width: 112px;

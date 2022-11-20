@@ -14,19 +14,12 @@ function useQuery() {
 
 export const Navigation = (): JSX.Element => {
   const query = useQuery();
-  const start = query.get("start");
-  const end = query.get("end");
+  const start = "1"
+  const end = "11"
   const avoidances =
     query.get("avoidances") !== null
       ? JSON.parse(query.get("avoidances") || "")
       : {};
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (start === null || end === null) {
-      navigate("/");
-    }
-  }, [start, end]);
 
   return (
     <MainWrapper>
