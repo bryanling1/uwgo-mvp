@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "homepage": "https://bryanling1.github.io/uwgo-mvp",
+  "homepage": "https://uwgo.ca",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.12.3",
