@@ -31,7 +31,7 @@ export const Home = observer(() => {
   return (
     <PaperWrapper variant="outlined">
       <ImageWrapper>
-        <Img src="logo.png" />
+        <Img src="https://i.ibb.co/VtbrD3T/logo.png" />
       </ImageWrapper>
       <Spacer />
       <FormWrapper>
@@ -112,7 +112,7 @@ export const Home = observer(() => {
             color="primary"
             endIcon={<ArrowRightAltIcon />}
             disabled={isLoading}
-            href={`/route?${queryParams}`}
+            href={`/#/route?${queryParams}`}
             disableElevation
           >
             Let's Go!

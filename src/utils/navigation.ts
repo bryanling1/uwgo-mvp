@@ -31,10 +31,10 @@ export const calcGroundYOffset = async (
 export const getArrowImgSrc = (id: ArrowType) => {
   switch (id) {
     case ArrowType.LEFT:
-      return "leftArrow.png";
+      return "https://i.ibb.co/1GtNVv4/left-Arrow.png";
     case ArrowType.RIGHT:
-      return "rightArrow.png";
+      return "https://i.ibb.co/Gvjc705/right-Arrow.png";
     default:
-      return "straightArrow.png";
+      return "https://i.ibb.co/2NH94kx/straight-Arrow.png";
   }
 };

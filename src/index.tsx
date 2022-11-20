@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { Home } from "views/home/home";
 import { Navigation } from "views/navigation/Navigation";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { theme } from "styles/theme";
@@ -21,12 +21,12 @@ root.render(
   <React.StrictMode>
     <GlobalStyle />
     <ThemeProvider theme={theme}>
-      <BrowserRouter>
+      <HashRouter>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/route" element={<Navigation />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </ThemeProvider>
   </React.StrictMode>
 );
