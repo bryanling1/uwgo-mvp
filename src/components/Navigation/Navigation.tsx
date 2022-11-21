@@ -186,7 +186,7 @@ const NavWrapper = styled.div`
   height: 100%;
   max-height: 1180px;
   width: 100%;
-  max-width: 820px;
+  max-width: 520px;
   display: flex;
   flex-direction: column;
 `;
