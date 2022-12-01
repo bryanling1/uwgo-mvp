@@ -9,6 +9,7 @@ import { observer } from "mobx-react-lite";
 import { Typography } from "components/MUI/Typography";
 import Tooltip, { TooltipProps } from "@material-ui/core/Tooltip";
 import { makeStyles, Theme } from "@material-ui/core/styles";
+import Fab from "@material-ui/core/Fab";
 
 interface IButtonNav {
   onNext: () => void;
@@ -48,22 +49,20 @@ export const BottomNav = observer(
   }: IButtonNav) => {
     return (
       <MainWrapper>
-        <IconButtonWrapper isDisabled={!canPrev}>
-          <IconButton onClick={onPrev} disabled={!canPrev}>
-            <StyledLeftIcon />
-          </IconButton>
-        </IconButtonWrapper>
-        <Spacer width={16} />
         <TextWrapper>
-          <Typography variant="subtitle1" lineheight={20} $color="white">
+          <Typography variant="subtitle2" lineheight={20} $color="white">
             ARRIVAL TIME:
           </Typography>
-          <Typography variant="h3" bold lineheight={50} $color="white">
+          <Typography variant="h4" bold lineheight={30} $color="white">
             {arrivalTime}
           </Typography>
         </TextWrapper>
-        <Spacer width={16} />
-
+        <IconButtonWrapper isDisabled={!canPrev}>
+          <Fab onClick={onPrev}>
+            <StyledLeftIcon />
+          </Fab>
+        </IconButtonWrapper>
+        <Spacer width={8} />
         <IconButtonWrapper isDisabled={!canNext}>
           <BootstrapTooltip
             title="Tap this arrow to continue"
@@ -71,9 +70,9 @@ export const BottomNav = observer(
             open={showTooltip}
             placement="top"
           >
-            <IconButton onClick={onNext} disabled={!canNext}>
+            <Fab onClick={onNext}>
               <StyledRightIcon />
-            </IconButton>
+            </Fab>
           </BootstrapTooltip>
         </IconButtonWrapper>
       </MainWrapper>
@@ -86,28 +85,29 @@ const MainWrapper = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${blue[800]};
-  padding: 16px;
+  padding: 8px;
   box-sizing: border-box;
+  position: relative;
+  min-height: 80px;
 `;
 
 const StyledLeftIcon = styled(LeftIcon).attrs({
   fontSize: "large",
 })`
-  color: white;
   width: 56px;
 `;
 
 const StyledRightIcon = styled(RightIcon).attrs({
   fontSize: "large",
-})`
-  color: white;
-`;
+})``
 
 const TextWrapper = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
+  position: absolute;
+  left: 16px;
+  height: 100%;
 `;
 interface IIconButton {
   isDisabled?: boolean;
@@ -121,3 +121,6 @@ const StyledTooltip = styled(Tooltip)`
     background-color: red !important;
   }
 `;
+interface IFab{
+  isDisabled: boolean
+}

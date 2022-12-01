@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Avoidances } from "types/types";
+import { Avoidances, ArrowType} from "types/types";
 import { NavigationViewState } from "components/Navigation/NavigationViewState";
 import { observer } from "mobx-react-lite";
 import { autorun } from "mobx";
@@ -10,8 +10,15 @@ import { calcGroundYOffset, getArrowImgSrc } from "utils/navigation";
 import { Progress } from "components/Navigation/Progress/Progress";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Fab from "@material-ui/core/Fab";
-import CloseIcon from "@material-ui/icons/Close";
 import green from "@material-ui/core/colors/green";
+import blue from "@material-ui/core/colors/blue";
+import HomeIcon from '@material-ui/icons/Home';
+import DirectionsIcon from '@material-ui/icons/Directions';
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from '@material-ui/icons/Close';
+import { Typography } from "components/MUI/Typography";
+import ButtonBase from "@material-ui/core/ButtonBase"
+
 
 interface INavigation {
   start: string;
@@ -43,6 +50,13 @@ export const Navigation = observer(
       progress,
       showTooltip,
       isLastStep,
+      images,
+      currentIndex,
+      arrowTypes,
+      showFullPath,
+      setShowFullPath,
+      instructions,
+      setIndexFromDescription
     } = viewState;
 
     useEffect(
@@ -101,6 +115,34 @@ export const Navigation = observer(
         </LoaderWrapper>
       );
     }
+
+    const RenderInstructions = () => {
+      {
+        return showFullPath ? <> 
+        <CloseButtonWrapper onClick={()=>setShowFullPath(false)}><CloseIcon/></CloseButtonWrapper>
+        <InstructionsWrapper>
+          {
+            instructions.map(({title, description, icon}, i)=>(
+              <StyledButtonBase key={i} onClick={()=>{setIndexFromDescription(i)}}>
+              <InstructionWrapper  isCurrent={currentIndex === i}>
+                <InstructionsNumberWrapper>
+                  <Typography variant="h5">{`${i+1}. `}</Typography>
+                </InstructionsNumberWrapper>
+                <InstructionsInnerWrapper>
+                <TopNav 
+                  title={title}
+                  description={description}
+                  icon={icon}
+                  justify="start"
+                />
+                </InstructionsInnerWrapper>
+              </InstructionWrapper>
+              </StyledButtonBase>
+            ))
+          }
+        </InstructionsWrapper></> : null
+      }
+    }
     return (
       <MainWrapper>
         <NavWrapper>
@@ -109,7 +151,17 @@ export const Navigation = observer(
             description={instructionDescription}
             icon={instructionIcon}
           />
-          <ImageWrapper src={currentNode?.imageURL ?? ""} ref={ref}>
+          <ImageWrapper ref={ref}>
+            {
+              images.map((imageURL, i)=>
+                <SingleImage 
+                  src={imageURL} hide={i > currentIndex}
+                  arrowType={arrowTypes[i]} 
+                  key={imageURL}
+                  zoom={i < currentIndex}
+                />
+              )
+            }
             <GroundWrapper height={groundYOffset}>
               {arrow ? (
                 <StyledImage
@@ -130,6 +182,8 @@ export const Navigation = observer(
                 End Navigation <CloseIcon />
               </StyledFab>
             </FabWrapper>
+            <HomeButton size="small" href="/"><HomeIcon/></HomeButton>
+            <DescriptionButton size="small" onClick={()=>setShowFullPath(true)}><DirectionsIcon/></DescriptionButton>
           </ImageWrapper>
           <Progress percentage={progress} />
           <BottomNav
@@ -140,6 +194,7 @@ export const Navigation = observer(
             arrivalTime={navResponse?.arrivalTime ?? ""}
             showTooltip={showTooltip}
           />
+          <RenderInstructions />
         </NavWrapper>
       </MainWrapper>
     );
@@ -171,6 +226,7 @@ const MainWrapper = styled.div`
   height: 100%;
   display: flex;
   justify-content: center;
+  position: relative;
 `;
 
 const LoaderWrapper = styled.div`
@@ -189,23 +245,44 @@ const NavWrapper = styled.div`
   max-width: 520px;
   display: flex;
   flex-direction: column;
+  position: relative;
 `;
 
-interface IImageWrapper {
-  src: string;
-}
-
-const ImageWrapper = styled.div<IImageWrapper>`
-  background-image: url(${props => props.src});
-  background-position: center bottom;
-  background-size: cover;
-  background-repeat: no-repeat;
+const ImageWrapper = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column-reverse;
   position: relative;
   overflow: hidden;
   align-items: center;
+`;
+
+interface ISingleImage {
+  src: string;
+  hide: boolean;
+  zoom: boolean;
+  arrowType?: ArrowType;
+}
+
+const SingleImage = styled.div<ISingleImage>`
+  background-image: url(${props => props.src});
+  background-position: center bottom;
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: ${props=>props.hide ? "0" : "1"};
+  transform: ${props=>props.zoom ? "scale(1.5)" : "scale(1)"};
+  transform-origin: center ${
+    props=>(props.arrowType === undefined) ? "center" : 
+    (props.arrowType === ArrowType.LEFT ? "left" : (
+      props.arrowType === ArrowType.RIGHT? "right": "center"
+    ))
+  };
+  transition: opacity 0.8s ease , transform 0.4s ease;
 `;
 
 interface IGroundWrapper {
@@ -248,3 +325,70 @@ const StyledImage = styled.img<IStyledImage>`
     }
   }
 `;
+
+const HomeButton = styled(Fab)`
+  &&& {
+    position: absolute;
+    left: 16px;
+    top: 16px;
+    background-color: ${blue[800]};
+    color: white;
+  }
+`
+
+const DescriptionButton = styled(Fab)`
+  &&& {
+    position: absolute;
+    left: 16px;
+    top: 65px;
+    background-color: ${blue[800]};
+    color: white;
+  }
+`
+
+const InstructionsWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 3;
+  box-sizing: border-box;
+`
+
+const CloseButtonWrapper = styled(IconButton)`
+  && {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 4;
+  }
+`
+
+interface IInstructionWrapper{
+  isCurrent: boolean;
+}
+
+const InstructionWrapper = styled.div<IInstructionWrapper>`
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  background-color: ${props=>props.isCurrent ? blue[300]: "white"};
+  width: 100%;
+`
+
+const InstructionsInnerWrapper = styled.div`
+  flex: 1
+`
+
+const InstructionsNumberWrapper = styled.div`
+  display: flex;
+  justift-content: center;
+  align-items: center;
+  padding: 16px;
+`
+
+const StyledButtonBase = styled(ButtonBase)`
+  width: 100%;
+`

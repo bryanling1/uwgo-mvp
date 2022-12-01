@@ -6,6 +6,7 @@ import {
   Node,
   IconType,
   Arrow,
+  ArrowType
 } from "types/types";
 import Requests from "classes/requests/requests";
 
@@ -14,6 +15,7 @@ export class NavigationViewState {
   private _i = 0;
   private _isLoading = true;
   private _showTooltip = true;
+  private _showFullPath = false;
   get isLoading() {
     return this._isLoading;
   }
@@ -56,6 +58,14 @@ export class NavigationViewState {
     return this.nodes[this._i];
   }
 
+  get currentIndex() {
+    return this._i;
+  }
+
+  get instructions(){
+    return this.nodes.map(node=>node.instruction)
+  }
+
   get instructionTitle(): string {
     return this.currentNode?.instruction.title ?? "";
   }
@@ -72,6 +82,10 @@ export class NavigationViewState {
     return this.currentNode?.overlayItems;
   }
 
+  get arrowTypes(): (ArrowType| undefined)[]{
+    return this.nodes.map(item=>item?.overlayItems?.type)
+  }
+
   get progress(): number {
     return (this._i / (this.nodes.length - 1)) * 100;
   }
@@ -79,12 +93,18 @@ export class NavigationViewState {
   get images(): string[] {
     return this.nodes.map(item => item.imageURL);
   }
+  
 
   goNext = () => {
     this._showTooltip = false;
     if (this.hasNext) {
       this._i += 1;
     }
+  };
+
+  setIndexFromDescription = (val: number) => {
+    this._showFullPath = false;
+    this._i = val;
   };
 
   goPrev = () => {
@@ -94,8 +114,16 @@ export class NavigationViewState {
   };
 
   get showTooltip(): boolean {
-    return this._showTooltip;
+    return this._showTooltip && !this._showFullPath;
   }
+
+  get showFullPath(): boolean {
+    return this._showFullPath;
+  }
+
+  setShowFullPath = (val: boolean) => {
+    this._showFullPath = val;
+  };
 
   setTooltip = (val: boolean) => {
     this._showTooltip = val;

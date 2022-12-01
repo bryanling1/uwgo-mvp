@@ -11,6 +11,7 @@ interface ITopNav {
   title: string;
   description: string;
   icon: IconType;
+  justify?: string;
 }
 
 const getIcon = (id: IconType) => {
@@ -24,16 +25,16 @@ const getIcon = (id: IconType) => {
   }
 };
 
-export const TopNav = ({ title, description, icon }: ITopNav) => {
+export const TopNav = ({ title, description, icon, justify}: ITopNav) => {
   return (
-    <MainWrapper>
+    <MainWrapper justify={justify}>
       {getIcon(icon)}
       <Spacer width={8} />
-      <TextWrapper>
-        <Typography variant="subtitle1" lineheight={20}>
+      <TextWrapper justify={justify}>
+        <Typography variant="subtitle1" lineheight={20} align={justify == "start" ? "left" : "center"}>
           {title.toUpperCase()}
         </Typography>
-        <Typography variant="h6" bold lineheight={20}>
+        <Typography variant="h6" bold lineheight={20} align={justify == "start" ? "left" : "center"}>
           {description}
         </Typography>
       </TextWrapper>
@@ -41,17 +42,21 @@ export const TopNav = ({ title, description, icon }: ITopNav) => {
   );
 };
 
-const MainWrapper = styled.div`
+interface IMainWrapper{
+  justify?: string;
+}
+const MainWrapper = styled.div<IMainWrapper>`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: ${props=>props.justify ?? "center"};
   background-color: white;
   padding: 16px;
   box-sizing: border-box;
 `;
 
-const TextWrapper = styled.div`
+const TextWrapper = styled.div<IMainWrapper>`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items:  ${props=>props.justify ?? "initial"};
 `;
